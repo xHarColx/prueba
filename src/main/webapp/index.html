@@ -130,7 +130,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.resultado === "ok") {
-                        setCookie("token", data.token, 7);
+                        
                         window.location.href = "clientes.html";
                     } else {
                         alert("Usuario o contraseña incorrectos");
