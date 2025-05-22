@@ -23,10 +23,11 @@ public class Login extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             String user = request.getParameter("user");
             String pass = request.getParameter("pass");
-            Usuario usu = new Usuario(user, pass);
-            Usuario b = usuDAO.validarUsuario(usu);
+             
+            Usuario b = usuDAO.validarUsuario(new Usuario(user, pass));
             System.out.println(b);
             if (b != null) {
+                System.out.println("gaaaaa");
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("usuario", user);
                 String token = utils.JwtUtil.generarToken(user);
