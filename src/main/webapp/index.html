@@ -1,10 +1,149 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio de Sesión</title>
+
+    <!-- SDK Google Sign-In -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- Estilos -->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 24px;
+            color: #333333;
+        }
+        label {
+            display: block;
+            margin: 12px 0 6px;
+            text-align: left;
+            font-weight: bold;
+            color: #555555;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #125ea3;
+        }
+        .divider {
+            margin: 30px 0 10px;
+            position: relative;
+            text-align: center;
+            color: #888;
+        }
+        .divider::before,
+        .divider::after {
+            content: "";
+            position: absolute;
+            height: 1px;
+            width: 40%;
+            background-color: #ccc;
+            top: 50%;
+        }
+        .divider::before {
+            left: 0;
+        }
+        .divider::after {
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>INICIO DE SESIÓN 🌍</h2>
+
+        <!-- Login tradicional -->
+        <form onsubmit="return false;">
+            <label for="user">Usuario:</label>
+            <input type="text" id="user" required />
+
+            <label for="pass">Contraseña:</label>
+            <input type="password" id="pass" required />
+
+            <button id="btnIniciar">Iniciar sesión</button>
+        </form>
+
+        <div class="divider">ó</div>
+
+        <!-- Login con Google -->
+        <div id="g_id_onload"
+             data-client_id="1098452111880-hlhrnqrvveiugklvdfhv4bfuqlouutjg.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin"
+             data-type="standard"
+             data-theme="outline"
+             data-size="large">
+        </div>
+    </div>
+
+    <script>
+        
+        // Login tradicional
+        document.getElementById("btnIniciar").addEventListener("click", function () {
+            let user = document.getElementById("user").value;
+            let pass = document.getElementById("pass").value;
+
+            let url = `login?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.resultado === "ok") {
+                        setCookie("token", data.token, 7);
+                        window.location.href = "clientes.html";
+                    } else {
+                        alert("Usuario o contraseña incorrectos");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al procesar la solicitud:", error);
+                    alert("Ocurrió un error en el inicio de sesión");
+                });
+        });
+
+       
+        
+    </script>
+</body>
 </html>
